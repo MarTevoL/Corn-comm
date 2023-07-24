@@ -13,6 +13,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { Link as RouterLink } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
+import PostReaction from "./PostReaction";
+import CommentList from "../comment/CommentList";
+import CommentForm from "../comment/CommentForm";
 
 function PostCard({ post }) {
   return (
@@ -62,6 +65,9 @@ function PostCard({ post }) {
             <img src={post.image} alt="post" />
           </Box>
         )}
+        <PostReaction post={post} />
+        <CommentList postId={post._id} />
+        <CommentForm postId={post._id} />
       </Stack>
     </Card>
   );
