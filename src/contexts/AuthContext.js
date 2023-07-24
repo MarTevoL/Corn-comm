@@ -106,7 +106,7 @@ function AuthProvider({ children }) {
 
   const login = async ({ email, password }, callback) => {
     const response = await apiService.post("/auth/login", { email, password });
-    const { user, accessToken } = response.data.data;
+    const { user, accessToken } = response.data;
 
     setSession(accessToken);
     dispatch({
@@ -119,7 +119,7 @@ function AuthProvider({ children }) {
 
   const register = async ({ name, email, password }, callback) => {
     const response = await apiService.post("/users", { name, email, password });
-    const { user, accessToken } = response.data.data;
+    const { user, accessToken } = response.data;
 
     setSession(accessToken);
     dispatch({
