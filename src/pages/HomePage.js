@@ -99,6 +99,7 @@ function HomePage() {
         if (isMatched) {
           return <Box key={tab.value}>{tab.component}</Box>;
         }
+        return null;
       })}
     </Container>
   );

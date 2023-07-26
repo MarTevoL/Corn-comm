@@ -3,7 +3,6 @@ import ThumbDownAltRoundedIcon from "@mui/icons-material/ThumbDownAltRounded";
 import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { EmojiEmotions } from "@mui/icons-material";
 import { sendCommentReaction } from "./commentSlice";
 
 function CommentReaction({ comment }) {
