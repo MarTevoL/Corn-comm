@@ -16,8 +16,16 @@ import { fDate } from "../../utils/formatTime";
 import PostReaction from "./PostReaction";
 import CommentList from "../comment/CommentList";
 import CommentForm from "../comment/CommentForm";
+import useAuth from "../../hooks/useAuth";
 
 function PostCard({ post }) {
+  const { user } = useAuth();
+  const handleClick = () => {
+    console.log(user._id);
+    console.log(post.author._id);
+
+    console.log(user._id === post.author._id);
+  };
   return (
     <Card>
       <CardHeader
@@ -45,7 +53,7 @@ function PostCard({ post }) {
           </Typography>
         }
         action={
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <MoreVertIcon sx={{ fontSize: 30 }} />
           </IconButton>
         }

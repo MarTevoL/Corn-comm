@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import apiService from "../../app/apiService";
 import { POST_PER_PAGE } from "../../app/config";
+import { cloudinaryUpload } from "../../utils/cloudinary";
 
 const initialState = {
   isLoading: false,
@@ -66,9 +67,10 @@ export const createPost =
     dispatch(slice.actions.startLoading());
     try {
       // upload image to cloudinary
+      const imageUrl = await cloudinaryUpload(image);
       const response = await apiService.post("/posts", {
         content,
-        image,
+        image: imageUrl,
       });
       dispatch(slice.actions.createPostSuccess(response.data));
     } catch (error) {

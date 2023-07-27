@@ -51,11 +51,13 @@ function AccountSocialLinks() {
 
   const {
     handleSubmit,
+    setValue,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
-    dispatch(updateUserProfile({ userId: user._id, ...data }));
+    setValue("userID", user._id);
+    dispatch(updateUserProfile(data));
   };
 
   return (
