@@ -9,7 +9,7 @@ import {
   CardHeader,
   IconButton,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { Link as RouterLink } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
@@ -17,15 +17,20 @@ import PostReaction from "./PostReaction";
 import CommentList from "../comment/CommentList";
 import CommentForm from "../comment/CommentForm";
 import useAuth from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { deletePost } from "./postSlice";
 
 function PostCard({ post }) {
   const { user } = useAuth();
-  const handleClick = () => {
-    console.log(user._id);
-    console.log(post.author._id);
+  const dispatch = useDispatch();
 
-    console.log(user._id === post.author._id);
+  const handleDeletePost = () => {
+    const confirm = window.confirm("Do you want to delete this post");
+    if (confirm) {
+      dispatch(deletePost({ postId: post._id }));
+    }
   };
+
   return (
     <Card>
       <CardHeader
@@ -53,9 +58,11 @@ function PostCard({ post }) {
           </Typography>
         }
         action={
-          <IconButton onClick={handleClick}>
-            <MoreVertIcon sx={{ fontSize: 30 }} />
-          </IconButton>
+          user._id === post.author._id && (
+            <IconButton onClick={handleDeletePost}>
+              <ClearIcon sx={{ fontSize: 30 }} />
+            </IconButton>
+          )
         }
       />
       <Stack spacing={2} sx={{ p: 3 }}>

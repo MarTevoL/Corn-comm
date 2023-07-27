@@ -19,7 +19,7 @@ const DropZoneStyle = styled("div")(({ theme }) => ({
   "&:hover": { opacity: 0.72, cursor: "pointer" },
 }));
 
-function UploadSingleFile({ error = false, file, helperText, sx, ...other }) {
+function UploadSingleFile({ error, file, helperText, sx, ...other }) {
   const {
     getRootProps,
     getInputProps,
@@ -28,6 +28,9 @@ function UploadSingleFile({ error = false, file, helperText, sx, ...other }) {
     fileRejections,
   } = useDropzone({
     multiple: false,
+    accept: {
+      "image/png": [".png", ".jpeg", ".jpg", ".gif"],
+    },
     ...other,
   });
 

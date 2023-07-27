@@ -49,9 +49,17 @@ const slice = createSlice({
     sendPostReactionSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log(action.payload);
       const { postId, reactions } = action.payload;
       state.postsById[postId].reactions = reactions;
+    },
+
+    deletePostSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const newPagePosts = state.currentPagePosts.filter(
+        (postId) => postId !== action.payload.postId
+      );
+      state.currentPagePosts = [...newPagePosts];
     },
 
     resetPosts(state, action) {
@@ -99,18 +107,31 @@ export const sendPostReaction =
   ({ postId, emoji }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
-    const response = await apiService.post(`/reactions`, {
-      targetType: "Post",
-      targetId: postId,
-      emoji,
-    });
-    dispatch(
-      slice.actions.sendPostReactionSuccess({
-        postId,
-        reactions: response.data,
-      })
-    );
+
     try {
+      const response = await apiService.post(`/reactions`, {
+        targetType: "Post",
+        targetId: postId,
+        emoji,
+      });
+      dispatch(
+        slice.actions.sendPostReactionSuccess({
+          postId,
+          reactions: response.data,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+    }
+  };
+
+export const deletePost =
+  ({ postId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.delete(`/posts/${postId}`);
+      dispatch(slice.actions.deletePostSuccess({ postId }));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
     }

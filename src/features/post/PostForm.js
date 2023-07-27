@@ -74,12 +74,7 @@ function PostForm() {
             }}
           />
 
-          <FUploadImage
-            name="image"
-            accept="image/*"
-            maxSize={3145728}
-            onDrop={handleDrop}
-          />
+          <FUploadImage name="image" maxSize={3145728} onDrop={handleDrop} />
 
           <Box
             sx={{
