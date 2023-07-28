@@ -59,6 +59,7 @@ const slice = createSlice({
       const newPagePosts = state.currentPagePosts.filter(
         (postId) => postId !== action.payload.postId
       );
+      delete state.postsById[action.payload.postId];
       state.currentPagePosts = [...newPagePosts];
     },
 
@@ -130,7 +131,7 @@ export const deletePost =
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await apiService.delete(`/posts/${postId}`);
+      await apiService.delete(`/posts/${postId}`);
       dispatch(slice.actions.deletePostSuccess({ postId }));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));

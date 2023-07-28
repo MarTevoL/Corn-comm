@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from "react";
-import { Box, Card, alpha, Stack, filledInputClasses } from "@mui/material";
+import React, { useCallback } from "react";
+import { Box, Card, alpha, Stack } from "@mui/material";
 
 import { FormProvider, FTextField, FUploadImage } from "../../components/form";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +22,6 @@ const defaultValues = {
 function PostForm() {
   const { isLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
-  const fileInput = useRef();
 
   const methods = useForm({
     resolver: yupResolver(yupSchema),
