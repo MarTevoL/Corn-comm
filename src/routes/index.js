@@ -9,6 +9,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import AuthRequire from "./AuthRequire";
+import EditPostPage from "../pages/EditPostPage";
 
 function Router() {
   return (
@@ -24,6 +25,7 @@ function Router() {
         <Route index element={<HomePage />} />
         <Route path="account" element={<AccountPage />} />
         <Route path="user/:userId" element={<UserProfilePage />} />
+        <Route path="post/:postId" element={<EditPostPage />} />
       </Route>
 
       <Route element={<BlankLayout />}>

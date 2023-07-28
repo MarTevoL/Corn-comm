@@ -68,6 +68,11 @@ const slice = createSlice({
       state.postsById = {};
       state.currentPagePosts = [];
     },
+
+    editPostSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+    },
   },
 });
 
@@ -137,6 +142,20 @@ export const deletePost =
       toast.success("Post removed");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
+    }
+  };
+
+export const editPost =
+  ({ postId, content, image }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.put(`/posts/${postId}`, {
+        content,
+      });
+      dispatch(slice.actions.editPostSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError());
     }
   };
 

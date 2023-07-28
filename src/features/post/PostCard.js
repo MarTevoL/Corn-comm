@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
 import PostReaction from "./PostReaction";
 import CommentList from "../comment/CommentList";
@@ -35,6 +35,7 @@ function PostCard({ post }) {
   const [openConfirm, setOpenConfirm] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setOpenConfirm(false);
@@ -43,6 +44,7 @@ function PostCard({ post }) {
 
   const handleEditPost = () => {
     console.log(`edit post ${post._id}`);
+    navigate(`/post/${post._id}`);
   };
 
   const handleDeletePost = () => {
