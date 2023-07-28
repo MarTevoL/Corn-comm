@@ -7,6 +7,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 
 import { capitalCase } from "change-case";
 
@@ -15,6 +16,7 @@ import FriendList from "../features/friend/FriendList";
 import FriendRequests from "../features/friend/FriendRequests";
 import AddFriend from "../features/friend/AddFriend";
 import ProfileCover from "../features/user/ProfileCover";
+import FriendOutgoingRequests from "../features/friend/FriendOutgoingRequests";
 
 const TabsWrapperStyle = styled("div")(({ theme }) => ({
   zIndex: 9,
@@ -36,10 +38,6 @@ function HomePage() {
   const { user } = useAuth();
   const [currentTab, setCurrentTab] = useState("profile");
 
-  const handleChangeTab = (newValue) => {
-    setCurrentTab(newValue);
-  };
-
   const PROFILE_TABS = [
     {
       value: "profile",
@@ -57,11 +55,21 @@ function HomePage() {
       component: <FriendRequests />,
     },
     {
+      value: "requested",
+      icon: <ImportContactsIcon sx={{ fontSize: 24 }} />,
+      component: <FriendOutgoingRequests />,
+    },
+    {
       value: "add_friend",
       icon: <PersonAddRoundedIcon sx={{ fontSize: 24 }} />,
       component: <AddFriend />,
     },
   ];
+
+  const handleChangeTab = (newValue) => {
+    setCurrentTab(newValue);
+  };
+
   return (
     <Container>
       <Card

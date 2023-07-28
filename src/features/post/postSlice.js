@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import apiService from "../../app/apiService";
 import { POST_PER_PAGE } from "../../app/config";
 import { cloudinaryUpload } from "../../utils/cloudinary";
+import { toast } from "react-toastify";
 
 const initialState = {
   isLoading: false,
@@ -133,6 +134,7 @@ export const deletePost =
     try {
       await apiService.delete(`/posts/${postId}`);
       dispatch(slice.actions.deletePostSuccess({ postId }));
+      toast.success("Post removed");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
     }

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import apiService from "../../app/apiService";
 import { toast } from "react-toastify";
+import { filter } from "lodash";
 
 const initialState = {
   isLoading: false,
@@ -8,6 +9,7 @@ const initialState = {
   currentPageUsers: [],
   usersById: {},
   totalPages: 1,
+  totalUsers: null,
 };
 
 const slice = createSlice({
@@ -88,6 +90,16 @@ const slice = createSlice({
       state.error = null;
       const { targetUserId } = action.payload;
       state.usersById[targetUserId].friendship = null;
+    },
+
+    getFriendOutgoingRequestsSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const { users, totalPages, count } = action.payload;
+      state.totalPages = totalPages;
+      state.totalUsers = count;
+      users.forEach((user) => (state.usersById[user._id] = user));
+      state.currentPageUsers = users.map((user) => user._id);
     },
   },
 });
@@ -213,6 +225,23 @@ export const getFriendRequests =
         params,
       });
       dispatch(slice.actions.getFriendRequestsSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const getFriendOutgoingRequests =
+  ({ filterName, page = 1, limit = 12 }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const params = { page, limit };
+      if (filterName) params.name = filterName;
+      const response = await apiService.get("/friends/requests/outgoing", {
+        params,
+      });
+      dispatch(slice.actions.getFriendOutgoingRequestsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
