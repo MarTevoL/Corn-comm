@@ -2,7 +2,6 @@ import { createContext, useReducer, useEffect } from "react";
 import { useSelector } from "react-redux";
 import apiService from "../app/apiService";
 import { isValidToken } from "../utils/jwt";
-import { Login } from "@mui/icons-material";
 
 const initialState = {
   isInitialized: false,

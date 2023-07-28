@@ -1,6 +1,5 @@
-import { Button } from "@mui/material";
-import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import PostEdit from "../features/post/PostEdit";
 
 function EditPostPage() {

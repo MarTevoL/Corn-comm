@@ -1,6 +1,5 @@
 import { styled } from "@mui/material/styles";
 import { Avatar, Box, Typography } from "@mui/material";
-import { alpha } from "@mui/material/styles";
 import useAuth from "../../hooks/useAuth";
 import ActionButton from "../friend/ActionButton";
 import FriendStatus from "../friend/FriendStatus";
