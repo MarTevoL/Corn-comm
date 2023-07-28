@@ -19,7 +19,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import useAuth from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
-import { deleteComment, getComments } from "./commentSlice";
+import { deleteComment } from "./commentSlice";
 
 function CommentCard({ comment }) {
   const { user } = useAuth();
@@ -81,7 +81,7 @@ function CommentCard({ comment }) {
             </Typography>
           </Box>
           {user._id === comment.author._id && (
-            <IconButton onClick={setOpenConfirm}>
+            <IconButton onClick={() => setOpenConfirm(true)}>
               <ClearIcon sx={{ fontSize: 12 }} />
             </IconButton>
           )}
