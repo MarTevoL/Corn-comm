@@ -10,6 +10,12 @@ import {
 import { fDate } from "../../utils/formatTime";
 import CommentReaction from "./CommentReaction";
 import ClearIcon from "@mui/icons-material/Clear";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 import useAuth from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
@@ -18,18 +24,38 @@ import { deleteComment, getComments } from "./commentSlice";
 function CommentCard({ comment }) {
   const { user } = useAuth();
   const dispatch = useDispatch();
+  const [openConfirm, setOpenConfirm] = React.useState(false);
 
+  const handleClose = () => {
+    setOpenConfirm(false);
+  };
   const handleDeleteComment = () => {
-    const confirm = window.confirm("Do you want to delete this comment ?");
-    console.log(comment._id);
-
-    if (confirm) {
-      dispatch(deleteComment({ commentId: comment._id, postId: comment.post }));
-    }
+    dispatch(deleteComment({ commentId: comment._id, postId: comment.post }));
   };
 
   return (
     <Stack direction="row" spacing={2}>
+      <Dialog
+        open={openConfirm}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"This comment will be removed"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            do you want to continue ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>No</Button>
+          <Button onClick={handleDeleteComment} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Avatar alt={comment.author?.name} src={comment.author?.avatarUrl} />
       <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}>
         <Stack
@@ -55,7 +81,7 @@ function CommentCard({ comment }) {
             </Typography>
           </Box>
           {user._id === comment.author._id && (
-            <IconButton onClick={handleDeleteComment}>
+            <IconButton onClick={setOpenConfirm}>
               <ClearIcon sx={{ fontSize: 12 }} />
             </IconButton>
           )}

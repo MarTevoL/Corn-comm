@@ -22,23 +22,32 @@ import CommentForm from "../comment/CommentForm";
 import useAuth from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { deletePost } from "./postSlice";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 function PostCard({ post }) {
   const { user } = useAuth();
   const dispatch = useDispatch();
+  const [openConfirm, setOpenConfirm] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
+
+  const handleClose = () => {
+    setOpenConfirm(false);
+    setAnchorEl(null);
+  };
 
   const handleEditPost = () => {
     console.log(`edit post ${post._id}`);
   };
+
   const handleDeletePost = () => {
-    const confirm = window.confirm("Do you want to delete this post ?");
-    if (confirm) {
-      dispatch(deletePost({ postId: post._id }));
-    } else {
-      setAnchorEl(null);
-    }
+    dispatch(deletePost({ postId: post._id }));
+    setAnchorEl(null);
   };
 
   const handleEditMenuOpen = (event) => {
@@ -69,7 +78,7 @@ function PostCard({ post }) {
         edit
       </MenuItem>
       <Divider sx={{ borderStyle: "dashed" }} />
-      <MenuItem onClick={handleDeletePost} sx={{ mx: 1 }}>
+      <MenuItem onClick={() => setOpenConfirm(true)} sx={{ mx: 1 }}>
         delete
       </MenuItem>
     </Menu>
@@ -77,6 +86,27 @@ function PostCard({ post }) {
 
   return (
     <Card>
+      <Dialog
+        open={openConfirm}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"You are deleting this post"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            do you want to continue ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>No</Button>
+          <Button onClick={handleDeletePost} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
       <CardHeader
         disableTypography
         avatar={
